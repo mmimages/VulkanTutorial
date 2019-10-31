@@ -70,6 +70,17 @@ private:
         createInfo.ppEnabledExtensionNames = glfwExtensions;
 
         createInfo.enabledLayerCount = 0;
+        
+        // 测试代码开始，打印可用扩展名称
+		uint32_t extensionCount = 0;
+		vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+		std::vector<VkExtensionProperties> extensions(extensionCount);
+		vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
+		std::cout << extensionCount << " available extensions: " << std::endl;
+		for (const auto& extension : extensions) {
+			std::cout << "\t" << extension.extensionName << std::endl;
+		}
+		// 测试代码结束
 
         if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
             throw std::runtime_error("failed to create instance!");
